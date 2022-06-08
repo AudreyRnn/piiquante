@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require('mongoose');
 const path = require('path')
 
+const sauceRoutes = require("./routes/sauces");
+const userRoutes = require("./routes/user");
+
 const app = express();
 
 app.use(express.json());
@@ -16,7 +19,7 @@ mongoose
   .catch(() => console.log("Connexion à MongoDB échouée !"));
 
 
-
+// empêcher les erreurs de CORS
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -30,23 +33,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  console.log("Requête Reçue!");
-  next();
-});
-
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
-
-app.use((req, res, next) => {
-  res.json({ message: "Votre requête a bien été reçue!" });
-  next();
-});
-
-app.use((req, res, next) => {
-  log("Réponse envoyée avec succès!");
-});
+app.use("/images", express.static(path.join(__dirname, "images")));
+app.use("/api/sauces", sauceRoutes);
+app.use("/api/auth", userRoutes);
 
 module.exports = app;

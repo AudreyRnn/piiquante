@@ -1,11 +1,11 @@
-// installer package bcrypt avant
+
 const bcrypt = require("bcrypt");
-// import jsonwebtoken (ne pas oublier l'install pour créer des token)
+
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 
-// fction signup pour enregistrement nouveaux users
+// signup: enregistrement nouveaux users 
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -23,12 +23,11 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-//fction login : connexion d'utilisateurs existants
+//login: connexion d'users existants 
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email }) // rechercher un user par rapport à son email unique
     .then((user) => {
       if (!user) {
-        // si pas user trouvé
         return res.status(401).json({ error: "utilisateur non trouvé" });
       }
       bcrypt
