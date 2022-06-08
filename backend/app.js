@@ -1,8 +1,21 @@
 const express = require("express");
+const mongoose = require('mongoose');
+const path = require('path')
 
 const app = express();
 
 app.use(express.json());
+
+// se connecter à la bdd 
+mongoose
+  .connect(
+    "mongodb+srv://piiquante_access:2022BDDtest@piiquante.mpxxvg4.mongodb.net/?retryWrites=true&w=majority",
+    { useNewUrlParser: true, useUnifiedTopology: true }
+  )
+  .then(() => console.log("Connexion à MongoDB réussie !"))
+  .catch(() => console.log("Connexion à MongoDB échouée !"));
+
+
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
