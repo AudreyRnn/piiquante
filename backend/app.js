@@ -1,6 +1,9 @@
+const dotenv = require ('dotenv').config('../.env');
+
 const express = require("express");
-const mongoose = require('mongoose');
-const path = require('path')
+const mongoose = require("mongoose");
+
+const path = require("path");
 
 const sauceRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
@@ -9,15 +12,14 @@ const app = express();
 
 app.use(express.json());
 
-// se connecter à la bdd 
+// se connecter à la bdd
 mongoose
   .connect(
-    "mongodb+srv://piiquante_access:2022BDDtest@piiquante.mpxxvg4.mongodb.net/?retryWrites=true&w=majority",
+    `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@piiquante.mpxxvg4.mongodb.net/?retryWrites=true&w=majority`,
     { useNewUrlParser: true, useUnifiedTopology: true }
   )
   .then(() => console.log("Connexion à MongoDB réussie !"))
   .catch(() => console.log("Connexion à MongoDB échouée !"));
-
 
 // empêcher les erreurs de CORS
 app.use((req, res, next) => {
