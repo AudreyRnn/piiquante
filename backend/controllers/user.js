@@ -1,11 +1,11 @@
-
+require("dotenv").config();
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/User");
 
-// signup: enregistrement nouveaux users 
+// signup: enregistrement nouveaux users
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -23,7 +23,7 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-//login: connexion d'users existants 
+//login: connexion d'users existants
 exports.login = (req, res, next) => {
   User.findOne({ email: req.body.email }) // rechercher un user par rapport à son email unique
     .then((user) => {
@@ -38,7 +38,7 @@ exports.login = (req, res, next) => {
           }
           res.status(200).json({
             userId: user._id, // si user trouvé on demande à renvoyer l'identifiant de l'utilisateur ds la base
-            token: jwt.sign({ userId: user._id }, "RANDOM_TOKEN_SECRET", {
+            token: jwt.sign({ userId: user._id }, process.env.SECRET_TOKEN, {
               expiresIn: "24h",
             }),
           });
