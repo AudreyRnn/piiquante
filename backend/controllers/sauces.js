@@ -23,7 +23,7 @@ exports.createSauce = (req, res, next) => {
 
 //modification d'une sauce
 exports.modifySauce = (req, res, next) => {
-  const sauceObject = req.file // sireq.file existe on traite la nouvelle image, sinon on traite l'objet entrant
+  const sauceObject = req.file // si req.file existe on traite la nouvelle image, sinon on traite l'objet entrant
     ? {
         ...JSON.parse(req.body.sauce),
         imageUrl: `${req.protocol}://${req.get("host")}/images/${
@@ -38,6 +38,7 @@ exports.modifySauce = (req, res, next) => {
     .then(() => res.status(200).json({ message: "objet modifié" }))
     .catch((error) => res.status(400).json({ error }));
 };
+
 // supprimer une sauce
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }) // trouver objet ds bdd

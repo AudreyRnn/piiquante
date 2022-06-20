@@ -15,6 +15,14 @@ exports.signup = (req, res, next) => {
         email: req.body.email,
         password: hash,
       });
+
+// utilisation d'une regEx pour vérifier l'input entré par l'utilisateur 
+
+if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)) {
+  return res.status(400).json ({message: "merci de renseigner un email valide"});
+}
+
+//Enregistrer les données de l'utilisateur dans la BDD
       user
         .save()
         .then(() => res.status(201).json({ message: "utilisateur crée" }))
@@ -25,6 +33,15 @@ exports.signup = (req, res, next) => {
 
 //login: connexion d'users existants
 exports.login = (req, res, next) => {
+   
+  // regEx pour vérifier l'input complété par l'utilisateur
+
+  if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)) {
+    return res
+      .status(400)
+      .json({ message: "merci de renseigner un email valide" });
+  }
+
   User.findOne({ email: req.body.email }) // rechercher un user par rapport à son email unique
     .then((user) => {
       if (!user) {
