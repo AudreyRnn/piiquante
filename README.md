@@ -11,8 +11,11 @@ Démarrez le servur back : node server (port de communication: 3000)
 
 
 Dans le dossier Frontend:
+
 installez npm : npm install 
+
 lancez: npm run start 
+
 accédez à l'application sur le port 4200: http://localhost/4200
 
 
