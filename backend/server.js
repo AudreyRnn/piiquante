@@ -1,6 +1,8 @@
+//imports package http de l'application
 const http = require("http");
 const app = require("./app");
 
+// configuration du port 
 // Renvoi d' un port valide (sous forme de numéro ou de chaîne)
 const normalizePort = (val) => {
   const port = parseInt(val, 10);

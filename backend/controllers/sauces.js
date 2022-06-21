@@ -1,5 +1,7 @@
+// imports 
 const Sauce = require("../models/sauce");
-const fs = require("fs");
+const fs = require("fs"); // package  file système
+
 
 //création d'une sauce
 exports.createSauce = (req, res, next) => {
@@ -15,6 +17,7 @@ exports.createSauce = (req, res, next) => {
       req.file.filename
     }`,
   });
+  //enregistrement en BDD
   sauce
     .save()
     .then(() => res.status(201).json({ message: "objet enregistré!" }))
@@ -44,8 +47,8 @@ exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }) // trouver objet ds bdd
     .then((sauce) => {
       const filename = sauce.imageUrl.split("/images/")[1]; // on extraie nom du fichier à supprimer
-      fs.unlink(`images/${filename}`, () => {
-        // supression du fichier fs.unlink
+      // supression du fichier fs.unlink
+      fs.unlink(`images/${filename}`, () => { 
         Sauce.deleteOne({ _id: req.params.id }) // ensuite supression de l'objet de la base
           .then(() => res.status(200).json({ message: "Objet supprimé !" }))
           .catch((error) => res.status(400).json({ error }));
@@ -56,7 +59,7 @@ exports.deleteSauce = (req, res, next) => {
 // affichage d'une sauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }) //trouver l'objet unique ayant le même id que le paramètre de la recherche
-    .then((sauces) => res.status(200).json(sauces)) // ce thing est ensuite retourné dans une promise et envoyé au frontend
+    .then((sauces) => res.status(200).json(sauces)) 
     .catch((error) => res.status(404).json({ error }));
 };
 // affichage toutes les sauces

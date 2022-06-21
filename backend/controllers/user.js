@@ -1,7 +1,9 @@
+// variables d'environnement
 require("dotenv").config();
-const bcrypt = require("bcrypt");
 
-const jwt = require("jsonwebtoken");
+//imports 
+const bcrypt = require("bcrypt");// import du package pour hasher les mots de passe 
+const jwt = require("jsonwebtoken");// import du package pour générrer un token 
 
 const User = require("../models/User");
 
@@ -16,7 +18,7 @@ exports.signup = (req, res, next) => {
         password: hash,
       });
 
-// utilisation d'une regEx pour vérifier l'input entré par l'utilisateur 
+// utilisation d'une regEx pour vérifier que l'input complété comprend un email valide 
 
 if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(req.body.email)) {
   return res.status(400).json ({message: "merci de renseigner un email valide"});
@@ -47,8 +49,9 @@ exports.login = (req, res, next) => {
       if (!user) {
         return res.status(401).json({ error: "utilisateur non trouvé" });
       }
+      //comparaison du MDP envoyé par le user qui tente de se connecter et du hash enregistré dans la BDD
       bcrypt
-        .compare(req.body.password, user.password) // comparer le mot de passe envoyé par user qui essaie de se co avec le hash enregistré avec le user déjà reçu
+        .compare(req.body.password, user.password) // (MDP envoyé dans la requête , hash enregistré en bdd user )
         .then((valid) => {
           if (!valid) {
             return res.status(401).json({ error: "Mot de passe incorrect" });
