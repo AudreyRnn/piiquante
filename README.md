@@ -6,8 +6,10 @@ Clonez ce repo :
 https://github.com/AudreyRnn/piiquante.git
 
 Dans le dossier Backend:
+
 installez npm : npm install  
-Démarrez le servur back : node server (port de communication: 3000) 
+
+Démarrez le serveur back : node server (port de communication: 3000) 
 
 
 Dans le dossier Frontend:
