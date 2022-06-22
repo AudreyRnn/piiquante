@@ -25,6 +25,20 @@ exports.createSauce = (req, res, next) => {
 
 //modification d'une sauce
 exports.modifySauce = (req, res, next) => {
+  // si req.file présent 
+  if (req.file){
+    // récupération de la sauce dans la bdd
+    Sauce.findOne ({_id: req.params.id})
+    .then (sauce => {
+      // récupération du fichier image à supprimer 
+      const filename = sauce.imageUrl.split ("/images/")[1];
+      //suppression du fichier image dans le dossier du serveur 
+      fs.unlink(`images/${filename}`, (err) => {if (err) throw err;
+    });
+  })
+   .catch((error) => res.status(400).json({ error }));
+
+}
   const sauceObject = req.file // si req.file existe on traite la nouvelle image, sinon on traite l'objet entrant
     ? {
         ...JSON.parse(req.body.sauce),
