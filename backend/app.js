@@ -1,18 +1,17 @@
 // Variables d'environnement - import du package dotenv
 require("dotenv").config("../.env");
 
-//imports 
+//imports
 const express = require("express");
-const cors = require ("cors");
+const cors = require("cors");
 const mongoose = require("mongoose");
-const helmet = require ("helmet");
+const helmet = require("helmet");
 const path = require("path");
 
-const sauceRoutes = require("./routes/sauces");// router pour le "parcours" sauces
+const sauceRoutes = require("./routes/sauces"); // router pour le "parcours" sauces
 const userRoutes = require("./routes/user"); //router pour le "parcours" utilisateur
 
-
-// Connexion à la base de données (bdd) 
+// Connexion à la base de données (bdd)
 mongoose
   .connect(
     `mongodb+srv://${process.env.MONGODB_USER}:${process.env.MONGODB_PASSWORD}@piiquante.mpxxvg4.mongodb.net/?retryWrites=true&w=majority`,
@@ -29,10 +28,10 @@ app.use(express.json());
 // utilisation de Helmet (configuration des en-êtes http)
 app.use(helmet.crossOriginResourcePolicy({ policy: "same-site" }));
 
-// utilisation de cors pour limiter les erreurs 
-  app.use(cors ());
+// utilisation de cors pour limiter les erreurs
+app.use(cors({ origin: "http://localhost:4200" }));
 
-// Accès principaux 
+// Accès principaux
 app.use("/images", express.static(path.join(__dirname, "images")));
 app.use("/api/sauces", sauceRoutes);
 app.use("/api/auth", userRoutes);

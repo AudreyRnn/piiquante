@@ -1,7 +1,6 @@
-// imports 
+// imports
 const Sauce = require("../models/sauce");
 const fs = require("fs"); // package  file système
-
 
 //création d'une sauce
 exports.createSauce = (req, res, next) => {
@@ -46,9 +45,18 @@ exports.modifySauce = (req, res, next) => {
 exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }) // trouver objet ds bdd
     .then((sauce) => {
+      if (!sauce) {
+        return res.status(404).json({ error: "requête non autorisée!" });
+      }
+      //Verification que la sauce appartient à l'user
+      if (sauce.userId !== req.auth.userId) {
+        return res.status(401).json({
+          error: "Requête non autorisée",
+        });
+      }
       const filename = sauce.imageUrl.split("/images/")[1]; // on extraie nom du fichier à supprimer
       // supression du fichier fs.unlink
-      fs.unlink(`images/${filename}`, () => { 
+      fs.unlink(`images/${filename}`, () => {
         Sauce.deleteOne({ _id: req.params.id }) // ensuite supression de l'objet de la base
           .then(() => res.status(200).json({ message: "Objet supprimé !" }))
           .catch((error) => res.status(400).json({ error }));
@@ -59,7 +67,7 @@ exports.deleteSauce = (req, res, next) => {
 // affichage d'une sauce
 exports.getOneSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id }) //trouver l'objet unique ayant le même id que le paramètre de la recherche
-    .then((sauces) => res.status(200).json(sauces)) 
+    .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(404).json({ error }));
 };
 // affichage toutes les sauces
@@ -83,13 +91,13 @@ exports.likeSauce = (req, res, next) => {
           sauce.usersLiked.push(req.body.userId);
           sauce.likes += req.body.like;
 
-        //Le user n'aime pas la sauce 
+          //Le user n'aime pas la sauce
         } else if (req.body.like == -1) {
           sauce.usersDisliked.push(req.body.userId);
           sauce.dislikes -= req.body.like;
         }
       }
-      // Retirer un like 
+      // Retirer un like
       if (
         sauce.usersLiked.indexOf(req.body.userId) != -1 &&
         req.body.like == 0
