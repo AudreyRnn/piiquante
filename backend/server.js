@@ -15,7 +15,7 @@ const normalizePort = (val) => {
   }
   return false;
 };
-
+// port 3000 par défaut -- si port 3000 non dispo la variable environnement renvoit un port à utiliser
 const port = normalizePort(process.env.PORT || "3000");
 app.set ('port', port);
 
