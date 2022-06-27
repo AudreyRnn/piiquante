@@ -5,7 +5,7 @@
 Clonez ce repo :
 https://github.com/AudreyRnn/piiquante.git
 
-##Dans le dossier Backend:
+## Dans le dossier Backend:
 
 installez npm : `npm install `
 
@@ -21,12 +21,12 @@ accédez à l'application sur le port 4200: http://localhost/4200
 
 -------VARIABLES D'ENVIRONNEMENT ---------
 
-### MONGODB
+#### MONGODB
 
-### MONGODB_USER = identifiant de votre base de données
+#### MONGODB_USER = identifiant de votre base de données
 
-### MONGODB_PASSWORD = mot de passe de votre base de données
+#### MONGODB_PASSWORD = mot de passe de votre base de données
 
-### TOKEN
+#### TOKEN
 
-### SECRET_TOKEN = token pour l'utilisation de jsonwebtoken
+#### SECRET_TOKEN = token pour l'utilisation de jsonwebtoken
